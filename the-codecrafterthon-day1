@@ -1,0 +1,80 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func help() {
+	fmt.Print("HELP MENU\nChoose an operation by entering a number\n1. Addition(e.g: 5 + 3)\n2. Subtraction(e.g: 5 - 3)\n3. Multiplication(e.g: 5 * 3)\n4. Division(e.g: 10 / 2)\n5. Exit the program.\n")
+	fmt.Println("Then enter numbers only (no letters!)")
+	fmt.Println("----------PROGRAM AUTOMATICALLY----------")
+	fmt.Println("----------------CONTINUES----------------")
+	fmt.Println("                                         ")
+}
+
+func main() {
+	for {
+		var opStr, num1Str, num2Str string
+		var operator int
+		var num1, num2 float64
+
+		fmt.Println("Hi There, Welcome To Go CLI Calculator:")
+		fmt.Println("Enter An Operation (Support)\n1. Additon\n2. Subtraction\n3. Multiplication\n4. Division\n5. Exit")
+		fmt.Print("Now, Select An Operator: ")
+		fmt.Scanln(&opStr)
+
+		operator, err := strconv.Atoi(opStr)
+		if err != nil {
+			fmt.Println("Invalid Option!")
+			help()
+			continue
+		}
+
+		if operator == 5 {
+			fmt.Println("Goodbye!")
+			return
+		}
+
+		if operator < 1 || operator > 5 {
+			fmt.Println("Invalid Option!")
+			help()
+			continue
+		}
+
+		fmt.Println("Enter The First Number: ")
+		fmt.Scanln(&num1Str)
+
+		num1, err = strconv.ParseFloat(num1Str, 64)
+		if err != nil {
+			fmt.Println("Invalid number!")
+			help()
+			continue
+		}
+
+		fmt.Println("Enter The Second Number: ")
+		fmt.Scanln(&num2Str)
+
+		num2, err = strconv.ParseFloat(num2Str, 64)
+		if err != nil {
+			fmt.Println("Invalid number!")
+			help()
+			continue
+		}
+
+		if operator == 1 {
+			fmt.Println("Result:", num1+num2)
+		} else if operator == 2 {
+			fmt.Println("Result:", num1-num2)
+		} else if operator == 3 {
+			fmt.Println("Result:", num1*num2)
+		} else if operator == 4 {
+			if num2 == 0 {
+				fmt.Println("Error: Cannot Divide By Zero")
+				help()
+				continue
+			}
+			fmt.Println("Result:", num1/num2)
+		}
+	}
+}
