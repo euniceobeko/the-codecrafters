@@ -1,0 +1,67 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+func help() {
+	fmt.Print("HELP MENU\nChoose an option:\n1. Convert Hexadecimal to Decimal\n2. Convert Binary to Decimal\n3. Convert Decimal to Binary & Hexadecimal\n4. Exit\n")
+	fmt.Println("Enter valid numbers only!")
+	fmt.Println("----------PROGRAM AUTOMATICALLY----------")
+	fmt.Println("----------------CONTINUES----------------")
+	fmt.Println("                                         ")
+}
+
+func main() {
+	for {
+		var opStr, value string
+		var option int
+		var num int64
+		var err error
+
+		fmt.Println("-------------------------------------------------------------------------")
+		fmt.Println("------------ WELCOME TO YOUR GO-TO BASE CONVERTER CALCULATOR ------------")
+		fmt.Println("            -------------------------------------------------            ")
+		fmt.Print("Enter Your Choice:\n1. Convert From Hexadecimal To Decimal\n2. Convert From Binary To Decimal\n3. Convert From Decimal To Binary & Hexadecimal\n4. Exit\n")
+		fmt.Print("Now, Select An Option: ")
+		fmt.Scanln(&opStr)
+
+		option, err = strconv.Atoi(opStr) // ✅ FIX 1: err declared above
+		if err != nil || option < 1 || option > 4 {
+			fmt.Println("Invalid Option!")
+			help()
+			continue
+		}
+
+		if option == 4 {
+			fmt.Println("Goodbye!")
+			return
+		}
+
+		fmt.Print("Enter Value: ")
+		fmt.Scanln(&value)
+
+		if option == 1 {
+			num, err = strconv.ParseInt(value, 16, 64)
+		} else if option == 2 {
+			num, err = strconv.ParseInt(value, 2, 64)
+		} else {
+			num, err = strconv.ParseInt(value, 10, 64)
+		}
+
+		if err != nil {
+			fmt.Println("Invalid Value!")
+			help()
+			continue
+		}
+
+		if option == 1 || option == 2 {
+			fmt.Println("Decimal:", num)
+		} else {
+			fmt.Println("Binary:", strconv.FormatInt(num, 2))
+			fmt.Println("Hex:", strings.ToUpper(strconv.FormatInt(num, 16)))
+		}
+	}
+}
