@@ -28,7 +28,7 @@ func main() {
 		fmt.Print("Now, Select An Option: ")
 		fmt.Scanln(&opStr)
 
-		option, err = strconv.Atoi(opStr) // ✅ FIX 1: err declared above
+		option, err = strconv.Atoi(opStr) //
 		if err != nil || option < 1 || option > 4 {
 			fmt.Println("Invalid Option!")
 			help()
