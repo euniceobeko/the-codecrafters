@@ -5,8 +5,7 @@ This is just a command-line tool specifically a text editor tool that transforms
 - Reverse each word
 - Count letters, words, spaces, and characters
 - Check if a string is a palindrome
-- See your last 5 commands
-It handles extra spaces, numbers, punctuation, and mixed-case commands.
+- It handles extra spaces, numbers, punctuation, and mixed-case commands.
 
 How to run
 Save the program as main.go. Open terminal in that folder and run the program using the usual "go run main.go"
