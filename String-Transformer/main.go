@@ -4,126 +4,88 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"unicode"
 )
 
-const maxHistory = 5
-
-type HistoryEntry struct {
-	Command string
-	Input   string
-	Output  string
+func help() {
+	fmt.Println("Choose an option:")
+	fmt.Println("1. Uppercase\n2. Lowercase\n3. Capitalize Words\n")
+	fmt.Println("4. Title Case\n5. Snake Case\n6. Reverse Words\n")
+	fmt.Println("7. Count Text\n8. Palindrome Check\n9. Exit\n")
+	fmt.Println("----------PROGRAM AUTOMATICALLY CONTINUES----------\n")
 }
 
 func main() {
-	fmt.Println("-----------------------------------------------")
-	fmt.Println("----- CodeCrafters — Operation Gopher Protocol")
-	fmt.Println("----- Module: String Transformer")
-	fmt.Println("----- Author: Eunice Obeko")
-	fmt.Println("----- Squad: The Gophers")
-	fmt.Println("-----------------------------------------------")
-
-	scanner := bufio.NewScanner(os.Stdin)
-	history := []HistoryEntry{}
-
-	validCommands := []string{"upper", "lower", "cap", "title", "snake", "reverse", "count", "palindrome", "history", "exit"}
+	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		fmt.Print("> ")
-		if !scanner.Scan() {
-			fmt.Println("\nShutting down String Transformer. Goodbye.")
-			break
-		}
+		var opStr string
+		var option int
 
-		input := strings.TrimSpace(scanner.Text())
-		if input == "" {
+		fmt.Println("-----------------------------------------------")
+		fmt.Println("----- CodeCrafters — Operation Gopher Protocol")
+		fmt.Println("----- Module: String Transformer")
+		fmt.Println("----- Author: Eunice Obeko")
+		fmt.Println("----- Squad: The Gophers")
+		fmt.Println("-----------------------------------------------")
+		fmt.Println("                                                                         ")
+
+		fmt.Println("-------------------------------------------------------------------------")
+		fmt.Println("------------ WELCOME TO YOUR STRING TRANSFORMER ------------")
+		fmt.Println("-------------------------------------------------------------------------")
+
+		fmt.Print("Enter Your Choice:\n1. Uppercase\n2. Lowercase\n3. Capitalize Words\n4. Title Case\n5. Snake Case\n6. Reverse Words\n7. Count Text\n8. Palindrome Check\n9. Exit\n")
+		fmt.Print("Now, Select An Option: ")
+
+		opStr, _ = reader.ReadString('\n')
+		opStr = strings.TrimSpace(opStr)
+
+		option, err := strconv.Atoi(opStr)
+		if err != nil || option < 1 || option > 9 {
+			fmt.Println("Invalid Option!")
+			help()
 			continue
 		}
 
-		fields := strings.Fields(input)
-		command := strings.ToLower(fields[0])
-		text := strings.TrimSpace(strings.Join(fields[1:], " "))
-
-		if command == "exit" {
-			fmt.Println("Shutting down String Transformer. Goodbye.")
-			break
+		if option == 9 {
+			fmt.Println("Goodbye!")
+			return
 		}
 
-		if !contains(validCommands, command) {
-			fmt.Printf("✗ Unknown command: \"%s\"\n", command)
-			fmt.Print("  Valid commands:")
-			for _, c := range validCommands[:len(validCommands)-1] {
-				fmt.Print(" ", c+",")
-			}
-			fmt.Println(" exit")
-			continue
-		}
+		fmt.Print("Enter Text: ")
+		text, _ := reader.ReadString('\n')
+		text = strings.TrimSpace(text)
 
-		needsText := map[string]bool{
-			"upper": true, "lower": true, "cap": true,
-			"title": true, "snake": true, "reverse": true,
-			"count": true, "palindrome": true,
-		}
-
-		if needsText[command] && text == "" {
-			fmt.Printf("✗ No text provided. Usage: %s <text>\n", command)
+		if text == "" {
+			fmt.Println("Empty input!")
 			continue
 		}
 
 		var output string
 
-		switch command {
-		case "upper":
+		if option == 1 {
 			output = toUpper(text)
-		case "lower":
+		} else if option == 2 {
 			output = toLower(text)
-		case "cap":
+		} else if option == 3 {
 			output = capFirst(text)
-		case "title":
+		} else if option == 4 {
 			output = titleCase(text)
-		case "snake":
+		} else if option == 5 {
 			output = snakeCase(text)
-		case "reverse":
+		} else if option == 6 {
 			output = reverseCase(text)
-		case "count":
+		} else if option == 7 {
 			output = countText(text)
-		case "palindrome":
+		} else if option == 8 {
 			output = palindromeCheck(text)
-		case "history":
-			if len(history) == 0 {
-				fmt.Println("No history yet.")
-			} else {
-				for i, h := range history {
-					fmt.Printf("%d. [%s] \"%s\" → %s\n", i+1, h.Command, h.Input, h.Output)
-				}
-			}
-			continue
 		}
 
-		if command != "history" {
-			fmt.Println("→", output)
-			// Add to history
-			history = append(history, HistoryEntry{Command: command, Input: text, Output: output})
-			if len(history) > maxHistory {
-				history = history[1:]
-			}
-		}
+		fmt.Println("Result:\n", output)
 	}
 }
-
-// -------------------- Utility --------------------
-
-func contains(slice []string, val string) bool {
-	for _, s := range slice {
-		if s == val {
-			return true
-		}
-	}
-	return false
-}
-
-// -------------------- String Transform Functions --------------------
 
 func toUpper(s string) string {
 	return strings.ToUpper(s)
@@ -185,8 +147,6 @@ func snakeCase(s string) string {
 	}
 	return strings.Join(words, "_")
 }
-
-// -------------------- Bonus Commands --------------------
 
 func countText(s string) string {
 	totalChars := len(s)
