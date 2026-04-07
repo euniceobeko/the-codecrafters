@@ -1,0 +1,16 @@
+ALERT LEVEL FIVE DETECTED
+TODO: check coordinates
+CLASSIFIED: mission ongoing
+-----------------------------------
+this is a normal line
+another normal line
+lowercase line here
+   extra spaces here    
+REVERSE this line now
+short line
+TODO: send backup
+ALL CAPS LINE AGAIN
+random text here
+-----
+more lowercase words
+another REVERSE example here
